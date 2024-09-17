@@ -69,6 +69,9 @@ def calculate_residual_range_along_track(track, bragg_peak, voxel_size_cm=0.38):
     # Initialize residual range array
     residual_ranges = np.zeros(len(track))
     
+    # Energy
+    energies = np.zeros(len(track))
+    
     # Set to keep track of unique residual ranges
     unique_voxel_positions = set()
 
@@ -114,20 +117,23 @@ def calculate_residual_range_along_track(track, bragg_peak, voxel_size_cm=0.38):
         distance_step = np.linalg.norm(sorted_track[i, :3] - sorted_track[i-1, :3])
         total_distance += distance_step
         residual_range = total_distance * voxel_size_cm  # Convert to cm
+        voxel_energy = sorted_track[i, 3] + sorted_track[i-1, 3]
         
         # Check if the voxel position is unique, set a "residual range"
         voxel_pos = tuple(sorted_track[i, :3])
         if voxel_pos not in unique_voxel_positions:
             residual_ranges[sorted_track_indices[i]] = residual_range  # Map back to original indices
             unique_voxel_positions.add(voxel_pos)
+            energies[sorted_track_indices[i]] = abs(voxel_energy/2)
+            
 
-    return residual_ranges
+    return residual_ranges, energies
 
 
 def grab_and_plot_dEdx_vs_residual_range(h5file_path, max_tracks=1000000):
     residual_ranges_all = []
     dEdx_all = []
-    
+   
     with h5py.File(h5file_path, 'r') as f:
         dataset_key = 'images'
         #dataset_key = 'images' if 'fullImage' in h5file_path else 'point_clouds'
@@ -136,11 +142,12 @@ def grab_and_plot_dEdx_vs_residual_range(h5file_path, max_tracks=1000000):
         
         num_images = len(np.unique(images_data['imageInd']))
         count1 = 0
+        print("total images", num_images)
 
         #for image_ind in range(min(max_tracks, num_images)):
         for image_ind in np.unique(images_data['imageInd']):
-            #if count1 >= 10:
-            #    break
+            if count1 >= 1000:
+                break
             image_indices = images_data['imageInd'] == image_ind
             vox_data = images_data[image_indices]
             #if not np.all(np.isin(vox_data['voxPID'], [13, 11])):
@@ -148,8 +155,8 @@ def grab_and_plot_dEdx_vs_residual_range(h5file_path, max_tracks=1000000):
             
             # Extract muon-like voxels
             track = np.vstack((vox_data['voxx'], vox_data['voxy'], vox_data['voxz'], vox_data['voxdE'], vox_data['voxPID'])).T
-            muon_track = track[track[:, 4] == 13]  # Ignore electron voxels
-            
+            #muon_track = track[track[:, 4] == 13]  # Ignore electron voxels
+            muon_track = track
             #if len(muon_track) == 0:
             #    continue
 
@@ -160,39 +167,37 @@ def grab_and_plot_dEdx_vs_residual_range(h5file_path, max_tracks=1000000):
             
             # Calculate residual range
             #residual_ranges = calculate_residual_range(muon_track, bragg_peak)
-            residual_ranges = calculate_residual_range_along_track(muon_track, bragg_peak)
-            
-            # Calculate dE/dx
-            dEdx = muon_track[:, 3] / 0.38  # dE/dx = energy deposition per cm
-            #dEdx = muon_track[:, 3] / 0.1  # dE/dx = energy deposition per cm
-
-            # finalize data for 2d hist plotting
+            residual_ranges, energies = calculate_residual_range_along_track(muon_track, bragg_peak)
+        
             residual_ranges_all.extend(residual_ranges)
-            dEdx_all.extend(dEdx)
+            dEdx_all.extend(energies)
             
             if count1 % 50 == 0:
                 print(f'Processed track {count1}')
             count1 += 1
-
-    # Plotting
-    plt.figure(figsize=(10, 6))
-    plt.hist2d(residual_ranges_all, dEdx_all, bins=(1500, 150), cmap='viridis', norm=plt.Normalize(), cmin=1) #GnBu
-    #plt.hist2d(residual_ranges_all, dEdx_all, bins=(100, 1000), cmap='viridis', norm=plt.Normalize(), cmin=1) #GnBu
-
-    #plt.hist2d(residual_ranges_all, dEdx_all, bins=(1000, 1000), cmap='inferno', norm=LogNorm(), cmin=1)
-
     
-    
-    #plt.hist2d(residual_ranges_all, dEdx_all, bins=(100, 100), cmap='inferno', cmin=1)
-    #plt.hist2d(residual_ranges_all, dEdx_all, bins=(1000, 1000), cmap='inferno', norm=LogNorm(), cmin=1)
-
-    plt.colorbar(label='Counts')
-    plt.xlabel('Residual Range [cm]')
-    plt.ylabel('dE/dx [MeV/cm]')
-    plt.ylim(0, 15)  
-    plt.xlim(0, 150)
-    plt.title('dE/dx vs. Residual Range for Muon-Like Tracks')
-    plt.grid(True)
-    plt.show()
+            
+    return residual_ranges_all, dEdx_all
   
-grab_and_plot_dEdx_vs_residual_range(r"/path/to/h5_file.h5")
+residual_ranges_all, dEdx_all = grab_and_plot_dEdx_vs_residual_range(r"/path/to/h5_file.h5")
+
+# Plotting
+plt.figure(figsize=(10, 6))
+plt.hist2d(residual_ranges_all, dEdx_all, bins=(150, 150), cmap='viridis', norm=plt.Normalize(), cmin=1) #GnBu
+#plt.hist2d(residual_ranges_all, dEdx_all, bins=(100, 1000), cmap='viridis', norm=plt.Normalize(), cmin=1) #GnBu
+
+#plt.hist2d(residual_ranges_all, dEdx_all, bins=(1000, 1000), cmap='inferno', norm=LogNorm(), cmin=1)
+
+
+
+#plt.hist2d(residual_ranges_all, dEdx_all, bins=(100, 100), cmap='inferno', cmin=1)
+#plt.hist2d(residual_ranges_all, dEdx_all, bins=(1000, 1000), cmap='inferno', norm=LogNorm(), cmin=1)
+
+plt.colorbar(label='Counts')
+plt.xlabel('Residual Range [cm]')
+plt.ylabel('dE/dx [MeV/cm]')
+plt.ylim(0, 15)  
+plt.xlim(0, 150)
+plt.title('dE/dx vs. Residual Range for Muon-Like Tracks')
+plt.grid(True)
+plt.show()

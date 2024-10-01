@@ -31,7 +31,7 @@ args = parser.parse_args()
 
 
 # Define batch size, lr, num_epochs
-batch_size = 15 
+batch_size = 40 
 lr=1e-3 
 num_epochs = 150*20 # set to something long; in preinciple I simply monitor the accuracy plots to see when I am overtraining 
 print_every = 10
@@ -328,15 +328,15 @@ epochs_no_improve = 0
 warm_up_epochs = 50
             
 for epoch in range(start_epoch, num_epochs):
-    train_loss, _, _, train_chamfer_dist, train_emd_dist = train(model, train_DL, optimizer, epoch)
-    val_loss, _, _, val_chamfer_dist, val_emd_dist = validate(model, val_DL, val_train=True, val_test=False)
+    train_loss, train_cls_loss, train_energy_loss, train_chamfer_dist, train_emd_dist = train(model, train_DL, optimizer, epoch)
+    val_loss, val_cls_loss, val_energy_loss, val_chamfer_dist, val_emd_dist = validate(model, val_DL, val_train=True, val_test=False)
     predictions_coords, predictions_energy, input_coords, input_feats, target_coords, target_energy, test_chamfer_dist, test_emd_dist = test(model, test_DL, val_train=False, val_test=False)
     base_dir = '/path/to/base_dir/'
     save_predictions(base_dir, predictions_coords, predictions_energy, input_coords, input_feats, target_coords, target_energy, epoch)
     
     # Log losses to W&B
-    wandb.log({"epoch": epoch, "train_loss": train_loss, "train_chamfer": train_chamfer_dist, "train_emd": train_emd_dist, "val_loss": val_loss, "val_chamfer": val_chamfer_dist, "val_emd": val_emd_dist,
-        "test_chamfer": test_chamfer_dist, "test_emd": test_emd_dist})
+    wandb.log({"epoch": epoch, "train_loss": train_loss, "train_chamfer": train_chamfer_dist, "train_emd": train_emd_dist, "train_energy_loss": train_energy_loss, "val_loss": val_loss, "val_chamfer": val_chamfer_dist, "val_emd": val_emd_dist, "val_energy_loss": val_energy_loss, "test_chamfer": test_chamfer_dist, "test_emd": test_emd_dist})
+
     
     # Check for improvement
     if val_loss < best_val_loss:

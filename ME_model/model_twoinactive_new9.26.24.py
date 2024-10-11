@@ -91,9 +91,9 @@ val_dataset = particle_dataset(val_incoords, val_infeats, val_tgcoords, val_tgfe
 drop_last = False
 
 # Create DataLoaders
-train_DL = DataLoader(train_dataset, batch_size=batch_size, collate_fn=custom_collate_fn, shuffle=True, drop_last=drop_last, num_workers=2) 
-test_DL = DataLoader(test_dataset, batch_size=batch_size, collate_fn=custom_collate_fn, shuffle=False, drop_last=drop_last, num_workers=2)
-val_DL = DataLoader(val_dataset, batch_size=batch_size, collate_fn=custom_collate_fn, shuffle=False, drop_last=drop_last, num_workers=2)
+train_DL = DataLoader(train_dataset, batch_size=batch_size, collate_fn=custom_collate_fn, shuffle=True, drop_last=drop_last, num_workers=1) 
+test_DL = DataLoader(test_dataset, batch_size=batch_size, collate_fn=custom_collate_fn, shuffle=False, drop_last=drop_last, num_workers=1)
+val_DL = DataLoader(val_dataset, batch_size=batch_size, collate_fn=custom_collate_fn, shuffle=False, drop_last=drop_last, num_workers=1)
 
 
 in_channels = 1

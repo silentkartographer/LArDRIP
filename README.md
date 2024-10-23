@@ -5,7 +5,8 @@ This package is a work-in-progress for generating inferred signals in dead regio
 
 It is a generative Sparse 3D Convolutional Neural Network. 
 
-## View the Rendered Notebook Outputs
+## View Rendered Notebook Outputs
 
 [View the plotting notebook with outputs on nbviewer](https://nbviewer.org/github/silentkartographer/LArDRIP/blob/main/plotting/plotting.ipynb)
 
+Examples and preprint coming soon...

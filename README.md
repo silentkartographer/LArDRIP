@@ -18,6 +18,7 @@ Place the simulation .npz files for muon-like tracks in the /data directory. A l
 2. Instructions to install MinkowksiEngine is coming soon ...
 
 3. Running the Model
+
 To run the model, use the following command:
 
 First, modify ``` model_twoinactive_new.py ``` to point to the inputs above and place the outputs where you want them to exist.

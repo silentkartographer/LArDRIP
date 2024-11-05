@@ -22,9 +22,11 @@ Place the simulation .npz files for muon-like tracks in the /data directory. A l
 
 4. Running LArDRIP
 
-To run the model, use the following command:
+To run the model,
 
 First, modify ``` model_twoinactive_new.py ``` to point to the inputs above and place the outputs where you want them to exist.
+
+Then use the following command:
 
 ```bash python3 /ME_model/model_twoinactive_new.py ```
 

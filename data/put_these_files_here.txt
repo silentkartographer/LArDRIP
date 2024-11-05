@@ -1,0 +1,19 @@
+Place these files here:
+
+input_coords.npz
+input_coords_energies.npz
+input_feats.npz
+input_feats_energies.npz
+input_tracks.npz
+input_tracks_energies.npz
+target_coords.npz
+target_coords_energies.npz
+target_feats.npz
+target_feats_energies.npz
+target_tracks.npz
+target_tracks_energies.npz
+
+These are some example muon-like tracks that can be used with the training code and model.
+ 
+Here is the link to the files:
+https://drive.google.com/drive/folders/12BEOMvUFkKPDum7iJmQz97L3OxgrdZXd?usp=drive_link

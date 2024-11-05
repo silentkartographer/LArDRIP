@@ -1,5 +1,5 @@
 torch
-MinkowskiEngine # this needs to be installed seperately or run via a singularity image; instructions on this coming soon ...
+MinkowskiEngine # this needs to be installed separately or run via a singularity image; instructions on this coming soon ...
 numpy
 scikit-learn
 wandb

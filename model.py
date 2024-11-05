@@ -4,6 +4,21 @@
 # Networks", CVPR'19 (https://arxiv.org/abs/1904.08755) if you use any part
 # of the code.
 
+import gc, argparse
+import torch
+import numpy as np
+import torch.nn as nn
+import torch.utils.data
+import torch.nn.functional as F
+import torch.optim as optim
+import MinkowskiEngine as ME
+from time import time
+import torch.nn.init as init
+import ot
+from scipy.spatial.distance import cdist
+device = ('cuda' if torch.cuda.is_available() else 'cpu')
+
+
 class CompletionNet_CutOnRawE_300_Energy(nn.Module):
 
     ENC_CHANNELS = [22, 58, 84, 158, 312, 676, 1024, 1576, 2048]

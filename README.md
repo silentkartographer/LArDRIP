@@ -24,6 +24,6 @@ If you need to resume training from a specific epoch (for instance, after an int
 
 ```bash python3 /ME_model/model_twoinactive_new.py --resume --checkpoint_path /path/to/checkpoint/checkpoint_epoch_{number}.pth --wandb_run_id {wandb_id} ```
 
-{number}: The epoch from which to resume training (the model will start from this epoch + 1).
-{wandb_id}: The Weights and Biases ID for tracking the training session.
+```{number}```: The epoch from which to resume training (the model will start from this epoch + 1).
+```{wandb_id}```: The Weights and Biases ID for tracking the training session.
 

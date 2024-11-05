@@ -15,7 +15,9 @@ Examples and preprint coming soon...
 1. Data Preparation
 Place the simulation .npz files for muon-like tracks in the /data directory. A link to download these files is provided in a text file located in /data. Instructions on generating these simulation files will be added here in the future.
 
-2. Running the Model
+2. Instructions to install MinkowksiEngine is coming soon ...
+
+3. Running the Model
 To run the model, use the following command:
 
 First, modify ``` model_twoinactive_new.py ``` to point to the inputs above and place the outputs where you want them to exist.

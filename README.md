@@ -18,6 +18,8 @@ Place the simulation .npz files for muon-like tracks in the /data directory. A l
 2. Running the Model
 To run the model, use the following command:
 
+First, modify ``` model_twoinactive_new.py ``` to point to the inputs above and place the outputs where you want them to exist.
+
 ```bash python3 /ME_model/model_twoinactive_new.py ```
 
 If you need to resume training from a specific epoch (for instance, after an interruption), use the following command:

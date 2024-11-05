@@ -20,7 +20,7 @@ Place the simulation .npz files for muon-like tracks in the /data directory. A l
 
 3. Instructions to install MinkowksiEngine is coming soon ...
 
-4. Running the Model
+4. Running LArDRIP
 
 To run the model, use the following command:
 

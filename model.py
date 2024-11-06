@@ -4,6 +4,9 @@
 # Networks", CVPR'19 (https://arxiv.org/abs/1904.08755) if you use any part
 # of the code.
 
+# Please cite H. Utaegbulam, “LArDRIP,” https://github.com/
+# silentkartographer/LArDRIP if you use any part of the code. 
+
 import gc, argparse
 import torch
 import numpy as np

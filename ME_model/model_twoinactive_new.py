@@ -1,3 +1,5 @@
+# Please cite H. Utaegbulam, “LArDRIP,” https://github.com/silentkartographer/LArDRIP if you use any part of the code
+
 import os
 import sys
 import torch

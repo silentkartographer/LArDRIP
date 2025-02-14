@@ -7,7 +7,7 @@ It is a generative Sparse 3D Convolutional Neural Network.
 
 ## View Rendered Notebook Outputs
 
-[View the plotting notebook with outputs on nbviewer](https://nbviewer.org/github/silentkartographer/LArDRIP/blob/main/plotting/plotting.ipynb)
+<!-- [View the plotting notebook with outputs on nbviewer](https://nbviewer.org/github/silentkartographer/LArDRIP/blob/main/plotting/plotting.ipynb) -->
 
 Examples and preprint coming soon...
 
